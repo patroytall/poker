@@ -3,7 +3,7 @@ package org.roy.learn.poker
 import roy.learn.poker.deck.Rank
 import roy.learn.poker.deck.Suit
 
-public class Card(val rank: Rank, val suit: Suit) : Comparable<Card> {
+class Card(val rank: Rank, val suit: Suit) : Comparable<Card> {
   override fun compareTo(other: Card): Int {
     return rank.compareTo(other.rank)
   }
