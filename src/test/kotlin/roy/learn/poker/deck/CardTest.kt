@@ -2,6 +2,8 @@ package roy.learn.poker.deck
 
 import org.junit.jupiter.api.Test
 import org.roy.learn.poker.Card
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class CardTest {
@@ -26,8 +28,25 @@ class CardTest {
   }
 
   @Test
-  fun compare_whenMainIsSixAndOtherIsSix_mainAndOtherAreEqual() {
+  fun compareTo_whenMainIsSixAndOtherIsSix_mainAndOtherAreComparable() {
     initializeCards(Rank.SIX, Rank.SIX)
-    assertTrue(mainCard == otherCard)
+    assertEquals(0, mainCard.compareTo(otherCard))
+  }
+  
+  @Test
+  fun constructor_2CUpperCase_returns2DHand() {
+    assertEquals("2C", Card("2C").shortName())
+  }
+
+  @Test
+  fun constructor_3DLowerCase_returns2DHand() {
+    assertEquals("3D", Card("3d").shortName())
+  }
+
+  @Test
+  fun constructor_invalid1Z_throwsException() {
+    assertFailsWith<Exception> {
+      Card("1Z")
+    }
   }
 }

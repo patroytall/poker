@@ -7,7 +7,12 @@ import roy.learn.poker.deck.Suit
 
 fun main(args: Array<String>) {
   val deck: Deck = Deck()
-  generateSequence { PokerHand(deck) }.take(10).sorted().forEach { 
+
+  generateSequence { PokerHand(createPokerHandFromDeck(deck)) }.take(10).sorted().forEach { 
     println(it)
   }
+}
+
+private fun createPokerHandFromDeck(deck: Deck): List<Card> {
+  return  generateSequence { deck.getCard() }.take(5).toList()
 }
