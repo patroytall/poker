@@ -13,6 +13,6 @@ fun main(args: Array<String>) {
   }
 }
 
-private fun createPokerHandFromDeck(deck: Deck): List<Card> {
-  return  generateSequence { deck.getCard() }.take(5).toList()
+private fun createPokerHandFromDeck(deck: Deck): Set<Card> {
+  return  generateSequence { deck.getCard() }.take(5).toSet()
 }

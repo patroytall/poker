@@ -2,13 +2,13 @@ package roy.learn.poker
 
 import org.roy.learn.poker.Card
 
-class PokerHand(private val cards: List<Card>) : Comparable<PokerHand> {
+class PokerHand(cards: Set<Card>) : Comparable<PokerHand> {
+  private val cards: List<Card>
+
   init {
     if (cards.size != 5)
       throw Exception("Hand size must be 5 cards. Given size: " + cards.size)
-    if (cards.toSet().size != 5) {
-      throw Exception("Card in hand must be unique")
-    }
+    this.cards = cards.toMutableList().sorted()
   }
 
   override fun compareTo(other: PokerHand): Int {
@@ -42,10 +42,10 @@ class PokerHand(private val cards: List<Card>) : Comparable<PokerHand> {
     /**
      * @param shortNames list of 5 concatenated rank and suit, case insensitive, for example 2D, 3D, 4D, 5D, 6D
      */
-    operator fun invoke(shortNames: List<String>): PokerHand {
+    operator fun invoke(shortNames: Set<String>): PokerHand {
       return PokerHand(shortNames.map {
         Card(it)
-      })
+      }.toSet())
     }
   }
 }
