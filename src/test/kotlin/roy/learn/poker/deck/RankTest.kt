@@ -6,24 +6,29 @@ import kotlin.test.assertFailsWith
 
 class RankTest {
   @Test
-  fun shortName_ace_returnsA() {
-    assertEquals('A', Rank.ACE.toShortName())
+  fun toString_ace_returnsA() {
+    assertEquals("A", Rank.ACE.toString())
   }
 
   @Test
-  fun fromShortName_aLowerCase_returnsAce() {
-    assertEquals(Rank.ACE, Rank.fromShortName('a'))
+  fun longName_ace_returnsAceLowercase() {
+    assertEquals("ace", Rank.ACE.longName())
   }
 
   @Test
-  fun fromShortName_kUpperCase_returnsAce() {
-    assertEquals(Rank.KING, Rank.fromShortName('K'))
+  fun invoke_aLowerCase_returnsAce() {
+    assertEquals(Rank.ACE, Rank("a"))
   }
 
   @Test
-  fun fromShortName_invalidZ_throwsException() {
+  fun invoke_kUpperCase_returnsKing() {
+    assertEquals(Rank.KING, Rank("K"))
+  }
+
+  @Test
+  fun invoke_invalidZ_throwsException() {
     assertFailsWith<Exception> {
-      Rank.fromShortName('z')
+      Rank("z")
     }
   }
 }

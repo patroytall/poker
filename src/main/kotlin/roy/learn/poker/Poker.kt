@@ -7,7 +7,7 @@ fun main(args: Array<String>) {
   val deck: Deck = Deck()
 
   generateSequence { PokerHand(createPokerHandFromDeck(deck)) }.take(10).sorted().forEach { 
-    println(it)
+    println(it.toLongRepresentation())
   }
 }
 

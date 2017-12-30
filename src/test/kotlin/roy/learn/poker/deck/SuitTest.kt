@@ -6,24 +6,29 @@ import kotlin.test.assertFailsWith
 
 class SuitTest {
   @Test
-  fun shortName_clubs_returnsC() {
-    assertEquals('C', Suit.CLUBS.toShortName())
+  fun toString_clubs_returnsC() {
+    assertEquals("C", Suit.CLUBS.toString())
   }
 
   @Test
-  fun fromShortName_cLowerCase_returnsClubs() {
-    assertEquals( Suit.CLUBS, Suit.fromShortName('c'))
+  fun longName_clubs_returnsClubsLowercase() {
+    assertEquals("clubs", Suit.CLUBS.longName())
   }
 
   @Test
-  fun fromShortName_dUpperCase_returnsDiamonds() {
-    assertEquals( Suit.DIAMONDS, Suit.fromShortName('D'))
+  fun invoke_cLowerCase_returnsClubs() {
+    assertEquals( Suit.CLUBS, Suit("c"))
   }
 
   @Test
-  fun fromShortName_invalidA_throwsException() {
+  fun invoke_dUpperCase_returnsDiamonds() {
+    assertEquals( Suit.DIAMONDS, Suit("D"))
+  }
+
+  @Test
+  fun invoke_invalidA_throwsException() {
     assertFailsWith<Exception> {
-      Suit.fromShortName('a')
+      Suit("a")
     }
   }
 }

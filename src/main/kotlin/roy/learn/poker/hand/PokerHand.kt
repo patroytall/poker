@@ -28,32 +28,17 @@ class PokerHand(cards: Set<Card>) : Comparable<PokerHand> {
   }
 
   /**
-   * @return sorted verbose text representation of the hand
+   * @return sorted short text representation of the hand
    */
   override fun toString(): String {
     return cards.joinToString()
   }
 
   /**
-   * @return sorted short text representation of the hand
+   * @return sorted long text representation of the hand
    */
-  fun toShortRepresentation(): String {
-    return cards.asSequence().map { it.shortName() }.joinToString()
-  }
-
-  override fun equals(other: Any?): Boolean {
-    if (this === other) return true
-    if (javaClass != other?.javaClass) return false
-
-    other as PokerHand
-
-    if (cards != other.cards) return false
-
-    return true
-  }
-
-  override fun hashCode(): Int {
-    return cards.hashCode()
+  fun toLongRepresentation(): String {
+    return cards.asSequence().map { it.longName() }.joinToString()
   }
 
   companion object {

@@ -34,13 +34,13 @@ class CardTest {
   }
   
   @Test
-  fun constructor_2CUpperCase_returns2DHand() {
-    assertEquals("2C", Card("2C").shortName())
+  fun toString_2CUpperCase_returns2DHand() {
+    assertEquals("2C", Card("2C").toString())
   }
 
   @Test
-  fun constructor_3DLowerCase_returns2DHand() {
-    assertEquals("3D", Card("3d").shortName())
+  fun toString_3DLowerCase_returns2DHand() {
+    assertEquals("3D", Card("3d").toString())
   }
 
   @Test
