@@ -6,41 +6,47 @@ import kotlin.test.assertTrue
 
 class PokerHandHighTest {
   @Test
-  fun greaterThan_singleHighCardLastPosition_mainGreaterThanOther() {
+  fun greaterThan_main1stAtHandEndHigherThanOther_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "5D", "7D").toSet()) > 
         PokerHand(arrayOf("2D", "3D", "4D", "5D", "6D").toSet()))
   }
 
   @Test
-  fun smallerThan_singleHighCardFirstPosition_mainSmallerThanOther() {
+  fun smallerThan_main1stAtBeginningOfEndHigherThanOther_mainSmaller() {
     assertTrue(PokerHand(arrayOf("6D", "2D", "3D", "4D", "5D").toSet()) <
         PokerHand(arrayOf("7D", "2D", "3D", "4D", "5D").toSet()))
   }
 
   @Test
-  fun greaterThan_main2ndHigher_mainGreaterThanOther() {
+  fun greaterThan_main2ndHigherThanOther_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "6D", "7D").toSet()) >
         PokerHand(arrayOf("2D", "3D", "4D", "5D", "7D").toSet()))
   }
 
   @Test
-  fun greaterThan_main3rdHigher_mainGreaterThanOther() {
+  fun greaterThan_main3rdHigherThanOther_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "3D", "5D", "6D", "7D").toSet()) >
         PokerHand(arrayOf("2D", "3D", "4D", "6D", "7D").toSet()))
   }
 
   @Test
-  fun greaterThan_main4thHigher_mainGreaterThanOther() {
+  fun greaterThan_main4thHigherThanOther_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "4D", "5D", "6D", "7D").toSet()) >
         PokerHand(arrayOf("2D", "3D", "5D", "6D", "7D").toSet()))
   }
 
   @Test
-  fun greaterThan_main5thHigher_mainGreaterThanOther() {
+  fun greaterThan_main5thHigherThanOther_mainGreater() {
     assertTrue(PokerHand(arrayOf("3D", "4D", "5D", "6D", "7D").toSet()) >
         PokerHand(arrayOf("2D", "4D", "5D", "6D", "7D").toSet()))
   }
 
+  @Test
+  fun smallerThan_mainCompletelyDifferentThanOtherAndSmaller_mainSmaller() {
+    assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "5D", "6D").toSet()) <
+        PokerHand(arrayOf("7D", "8D", "9D", "TD", "JD").toSet()))
+  }
+  
   @Test
   fun compareTo_mainSameAsOther_returns0() {
     val sameHand = PokerHand(arrayOf("2D", "3D", "4D", "6D", "7D").toSet())

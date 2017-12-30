@@ -8,37 +8,31 @@ class PokerHand(cards: Set<Card>) : Comparable<PokerHand> {
   init {
     if (cards.size != 5)
       throw Exception("Hand size must be 5 cards. Given size: " + cards.size)
-    this.cards = cards.toMutableList().sorted()
+    this.cards = cards.reversed()
   }
 
   override fun compareTo(other: PokerHand): Int {
-    if (this.cards[4].compareTo(other.cards[4]) == 0)
-      if (this.cards[3].compareTo(other.cards[3]) == 0)
-        if (this.cards[2].compareTo(other.cards[2]) == 0)
-          if (this.cards[1].compareTo(other.cards[1]) == 0)
-            return this.cards[0].compareTo(other.cards[0])
-          else
-            return this.cards[1].compareTo(other.cards[1])
-        else
-          return this.cards[2].compareTo(other.cards[2])
-      else
-        return this.cards[3].compareTo(other.cards[3])
-    else
-      return this.cards[4].compareTo(other.cards[4])
+    for (i in cards.indices) {
+      val comparison = cards[i].compareTo(other.cards[i])
+      if (comparison != 0) {
+        return comparison
+      }
+    }
+    return 0
   }
 
   /**
    * @return sorted short text representation of the hand
    */
   override fun toString(): String {
-    return cards.joinToString()
+    return cards.sorted().joinToString()
   }
 
   /**
    * @return sorted long text representation of the hand
    */
   fun toLongRepresentation(): String {
-    return cards.asSequence().map { it.longName() }.joinToString()
+    return cards.sorted().asSequence().map { it.longName() }.joinToString()
   }
 
   companion object {
