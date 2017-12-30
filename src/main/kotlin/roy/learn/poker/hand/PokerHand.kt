@@ -1,4 +1,4 @@
-package roy.learn.poker
+package roy.learn.poker.hand
 
 import org.roy.learn.poker.Card
 
@@ -12,14 +12,32 @@ class PokerHand(cards: Set<Card>) : Comparable<PokerHand> {
   }
 
   override fun compareTo(other: PokerHand): Int {
-    return 0
+    if (this.cards[4].compareTo(other.cards[4]) == 0)
+      if (this.cards[3].compareTo(other.cards[3]) == 0)
+        if (this.cards[2].compareTo(other.cards[2]) == 0)
+          if (this.cards[1].compareTo(other.cards[1]) == 0)
+            return this.cards[0].compareTo(other.cards[0])
+          else
+            return this.cards[1].compareTo(other.cards[1])
+        else
+          return this.cards[2].compareTo(other.cards[2])
+      else
+        return this.cards[3].compareTo(other.cards[3])
+    else
+      return this.cards[4].compareTo(other.cards[4])
   }
 
+  /**
+   * @return sorted verbose text representation of the hand
+   */
   override fun toString(): String {
     return cards.joinToString()
   }
 
-  fun toShortNames(): String {
+  /**
+   * @return sorted short text representation of the hand
+   */
+  fun toShortRepresentation(): String {
     return cards.asSequence().map { it.shortName() }.joinToString()
   }
 
