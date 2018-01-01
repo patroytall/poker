@@ -7,39 +7,28 @@ import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 class CardTest {
-  lateinit var mainCard : Card
-  lateinit var otherCard : Card
-  
-  private fun initializeCards(mainCardRank: Rank, otherCardRank: Rank) {
-    mainCard = Card(mainCardRank, Suit.CLUBS)
-    otherCard = Card(otherCardRank, Suit.CLUBS)
-  }
-  
   @Test
-  fun compare_whenMainIsTwoAndOtherIsAce_mainIsSmallerThanOther() {
-    initializeCards(Rank.TWO, Rank.ACE)
-    assertTrue(mainCard < otherCard)
+  fun compareTo_whenMainIsTwoAndOtherIsAce_mainIsSmaller() {
+    assertTrue(Card(Rank.TWO, Suit.CLUBS) < Card(Rank.ACE, Suit.CLUBS))
   }
 
   @Test
-  fun compare_whenMainIsKingAndOtherIsThree_mainIsGreaterThanOther() {
-    initializeCards(Rank.KING, Rank.THREE)
-    assertTrue(mainCard > otherCard)
+  fun compareTo_whenMainIsKingAndOtherIsThree_mainIsGreater() {
+    assertTrue(Card(Rank.KING, Suit.CLUBS) > Card(Rank.THREE, Suit.CLUBS))
   }
 
   @Test
-  fun compareTo_whenMainIsSixAndOtherIsSix_mainAndOtherAreComparable() {
-    initializeCards(Rank.SIX, Rank.SIX)
-    assertEquals(0, mainCard.compareTo(otherCard))
+  fun compareTo_whenMainIsSixClubsAndOtherIsSixDiamonds_returns0() {
+    assertEquals(0,Card(Rank.SIX, Suit.CLUBS).compareTo(Card(Rank.SIX, Suit.DIAMONDS)))
   }
   
   @Test
-  fun toString_2CUpperCase_returns2DHand() {
+  fun toString_2CUpperCase_returns2C() {
     assertEquals("2C", Card("2C").toString())
   }
 
   @Test
-  fun toString_3DLowerCase_returns2DHand() {
+  fun toString_3DLowerCase_returns3D() {
     assertEquals("3D", Card("3d").toString())
   }
 

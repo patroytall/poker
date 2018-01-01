@@ -3,7 +3,7 @@ package org.roy.learn.poker
 import roy.learn.poker.deck.Rank
 import roy.learn.poker.deck.Suit
 
-class Card(private val rank: Rank, private val suit: Suit) : Comparable<Card> {
+class Card(val rank: Rank, val suit: Suit) : Comparable<Card> {
   /**
    * @param shortName rank and suit concatenated, case insensitive, for example: 2D
    */

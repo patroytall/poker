@@ -12,13 +12,21 @@ class PokerHand(cards: Set<Card>) : Comparable<PokerHand> {
   }
 
   override fun compareTo(other: PokerHand): Int {
-    for (i in cards.indices) {
-      val comparison = cards[i].compareTo(other.cards[i])
-      if (comparison != 0) {
-        return comparison
-      }
+    val cardsStrength = HandStrengthCalculator(cards).getStrength()
+    val otherStrength = HandStrengthCalculator(other.cards).getStrength()
+    if (cardsStrength > otherStrength) {
+      return 1
+    } else if (cardsStrength < otherStrength){
+      return -1      
+    } else {
+      return 0
     }
-    return 0
+//    for (i in cards.indices) {
+//      val comparison = cards[i].compareTo(other.cards[i])
+//      if (comparison != 0) {
+//        return comparison
+//      }
+//    }
   }
 
   /**

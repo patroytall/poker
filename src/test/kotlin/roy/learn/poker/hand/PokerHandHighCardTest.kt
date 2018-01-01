@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-class PokerHandHighTest {
+class PokerHandHighCardTest {
   @Test
   fun greaterThan_main1stAtHandEndHigherThanOther_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "5D", "7D").toSet()) > 
@@ -12,7 +12,7 @@ class PokerHandHighTest {
   }
 
   @Test
-  fun smallerThan_main1stAtBeginningOfEndHigherThanOther_mainSmaller() {
+  fun smallerThan_main1stAtBeginningSmallerThanOther_mainSmaller() {
     assertTrue(PokerHand(arrayOf("6D", "2D", "3D", "4D", "5D").toSet()) <
         PokerHand(arrayOf("7D", "2D", "3D", "4D", "5D").toSet()))
   }
