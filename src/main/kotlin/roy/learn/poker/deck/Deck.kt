@@ -24,7 +24,7 @@ class Deck(val randomGenerator: RandomGenerator) {
 
   fun getCard(): Card {
     if (cards.size == 0) {
-      throw NoCardException("no more cards in deck")
+      throw NoCardException("no more sortedCards in deck")
     }
     return cards.removeAt(randomGenerator.nextInt(cards.size))
   }

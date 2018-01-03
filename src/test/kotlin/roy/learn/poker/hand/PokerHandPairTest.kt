@@ -19,6 +19,6 @@ class PokerHandPairTest {
   @Test
   fun greaterThan_mainWithHigherPairButLowerThanOtherHighCard_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "2C", "3D", "4D", "5D").toSet()) >
-        PokerHand(arrayOf("6D", "2D", "3D", "4D", "5D").toSet()))
+        PokerHand(arrayOf("6D", "2C", "3D", "4D", "5D").toSet()))
   }
 }
