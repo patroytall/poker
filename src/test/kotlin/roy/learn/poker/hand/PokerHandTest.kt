@@ -12,7 +12,7 @@ class PokerHandTest {
   @Test
   fun constructor_size0CardSet_throwsException() {
     assertFailsWith<Exception> {
-      PokerHand(HashSet<Card>())
+      PokerHand(HashSet())
     }
   }
 

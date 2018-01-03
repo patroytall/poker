@@ -2,47 +2,22 @@ package roy.learn.poker.hand
 
 import org.roy.learn.poker.Card
 
-/**
- * Immutable.
- */
-class FiveSortedCards(fiveCards: Set<Card>) {
-
-  private val cards: List<Card> = fiveCards.sorted()
+class FiveSortedCards(fiveCards: Set<Card>) : ArrayList<Card>(fiveCards.sorted()){
 
   init {
-    if (cards.size != 5)
-      throw Exception("Invalid number of cards: " + cards.size)
-    cards.map { true }
-  }
-
-  fun filterIndexed(predicate: (index: Int, Card) -> Boolean): List<Card> {
-    return cards.filterIndexed(predicate)
-  }
-
-  operator fun get(index: Int): Card {
-    return cards[index]
-  }
-
-  val indices: IntRange
-    get() = cards.indices
-
-  fun asSequence(): Sequence<Card> {
-    return cards.asSequence()
-  }
-
-  fun <K> groupBy(keySelector: (Card) -> K): Map<K, List<Card>> {
-    return cards.groupBy(keySelector)
+    if (size != 5)
+      throw Exception("Invalid number of cards: " + size)
   }
 
   /**
    * @return sorted short text representation of the hand
    */
   override fun toString(): String {
-    return cards.joinToString()
+    return joinToString()
   }
 
   fun toLongRepresentation(): String {
-    return cards.asSequence().map { it.longName() }.joinToString()
+    return asSequence().map { it.longName() }.joinToString()
   }
 
   companion object {

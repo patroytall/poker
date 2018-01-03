@@ -2,9 +2,7 @@ package roy.learn.poker.hand
 
 import org.roy.learn.poker.Card
 
-class PokerHand(fiveSortedCards: FiveSortedCards) : Comparable<PokerHand> {
-  val fiveSortedCards = fiveSortedCards
-
+class PokerHand(private val fiveSortedCards: FiveSortedCards) : Comparable<PokerHand> {
   constructor(fiveCards: Set<Card>) : this(FiveSortedCards(fiveCards))
 
   private val analyzer = PokerHandAnalyzer(fiveSortedCards)
@@ -17,11 +15,11 @@ class PokerHand(fiveSortedCards: FiveSortedCards) : Comparable<PokerHand> {
     } else if (type < other.type){
       return -1      
     } else {
-      return compareOptionalHighCard(other)
+      return compareRanks(other)
     }
   }
 
-  private fun compareOptionalHighCard(other: PokerHand): Int {
+  private fun compareRanks(other: PokerHand): Int {
     for (i in analyzer.compareRanks.indices) {
       val comparison = analyzer.compareRanks[i].compareTo(other.analyzer.compareRanks[i])
       if (comparison != 0) {
