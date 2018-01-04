@@ -8,19 +8,13 @@ class PokerHandStraightFlushTest {
   @Test
   fun greaterThan_mainStraightFlushOtherWithHigherHighCards_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "5D", "6D").toSet()) >
-        PokerHand(arrayOf("7C", "8D", "9C", "TD", "KC").toSet()))
+        PokerHand(arrayOf("7C", "9D", "TD", "JD", "QD").toSet()))
   }
 
   @Test
-  fun greaterThan_mainStraightFlushWithLowCardsAndOtherWithHigherHighCards_mainGreater() {
+  fun greaterThan_mainStraightFlushOtherFourOfAKind_mainGreater() {
     assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "5D", "6D").toSet()) >
-        PokerHand(arrayOf("7C", "8D", "9C", "TD", "KC").toSet()))
-  }
-
-  @Test
-  fun greaterThan_mainStraightFlushOtherQuadruple_mainGreater() {
-    assertTrue(PokerHand(arrayOf("2D", "3D", "4D", "5D", "6D").toSet()) >
-        PokerHand(arrayOf("2D", "2C", "2H", "2S", "3D").toSet()))
+        PokerHand(arrayOf("2D", "2C", "2H", "2S", "7D").toSet()))
   }
 
   @Test

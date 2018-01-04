@@ -20,7 +20,7 @@ class PokerHand(private val fiveSortedCards: FiveSortedCards) : Comparable<Poker
   }
 
   private fun compareRanks(other: PokerHand): Int {
-    for (i in analyzer.compareRanks.indices) {
+    for (i in analyzer.compareRanks.indices.reversed()) {
       val comparison = analyzer.compareRanks[i].compareTo(other.analyzer.compareRanks[i])
       if (comparison != 0) {
         return comparison
