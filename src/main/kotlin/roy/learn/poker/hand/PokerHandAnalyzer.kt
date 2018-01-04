@@ -15,11 +15,13 @@ class PokerHandAnalyzer(private val fiveSortedCards: FiveSortedCards) {
 
   init {
     type = when {
-      checkForStraightFlushAndSetHighCards() -> PokerHandType.STRAIGHT_FLUSH
-      checkForFourOfAKindAndSetHighCards() -> PokerHandType.FOUR_OF_A_KIND
-      isFullHouse() -> PokerHandType.FULL_HOUSE
-      isFlush() -> PokerHandType.FLUSH
-      checkForPairAndSetHighCards() -> PokerHandType.PAIR
+      checkForStraightFlushAndSetCompareRanks() -> PokerHandType.STRAIGHT_FLUSH
+      checkForFourOfAKindAndSetCompareRanks() -> PokerHandType.FOUR_OF_A_KIND
+      checkForFullHouseAndSetCompareRanks() -> PokerHandType.FULL_HOUSE
+      checkForFlushAndSetCompareRanks() -> PokerHandType.FLUSH
+      checkForStraightAndSetCompareRanks() -> PokerHandType.STRAIGHT
+      checkForThreeOfAKindAndSetCompareRanks() -> PokerHandType.THREE_OF_A_KIND
+      checkForPairAndSetCompareRanks() -> PokerHandType.PAIR
       else -> {
         setCompareRanksToAllFiveSortedCards()
         PokerHandType.HIGH_CARD
@@ -27,75 +29,99 @@ class PokerHandAnalyzer(private val fiveSortedCards: FiveSortedCards) {
     }
   }
 
-  private fun checkForStraightFlushAndSetHighCards(): Boolean {
-    if (isFlush()) {
-      val sameRank = fiveSortedCards.filterIndexed { index, card ->
-        if (index == 0) {
-          true
-        } else {
-          card.rank.ordinal == fiveSortedCards[index - 1].rank.ordinal + 1
-        }
-      }.size == 5
-
-      if (sameRank) {
-        setCompareRanksToAllFiveSortedCards()
-        return true;
-      }
-    }
-    return false
-  }
-
-  private fun setCompareRanksToAllFiveSortedCards() {
-    compareRanks.addAll(fiveSortedCards.asSequence().map { it.rank })
-  }
-
-  private fun checkForFourOfAKindAndSetHighCards(): Boolean {
-    val values = groupedAndSortedCards.values.toList()
-    if (values.size == 2)
-      if (values[0].size == 1 && values[1].size == 4) {
-        compareRanks.add(values[0][0].rank)
-        compareRanks.add(values[1][0].rank)
-        return true
-      } else if (values[0].size == 4 && values[1].size == 1) {
-        compareRanks.add(values[1][0].rank)
-        compareRanks.add(values[0][0].rank)
-        return true
-      }
-    return false
-  }
-
-  private fun isFullHouse(): Boolean {
-    val values = groupedAndSortedCards.values.toList()
-    if (values.size == 2) {
-      if (values[0].size == 2 && values[1].size == 3) {
-        compareRanks.add(values[0][0].rank)
-        compareRanks.add(values[1][0].rank)
-        return true
-      } else if (values[0].size == 3 && values[1].size == 2) {
-        compareRanks.add(values[1][0].rank)
-        compareRanks.add(values[0][0].rank)
-        return true
-      }
+  private fun checkForStraightFlushAndSetCompareRanks(): Boolean {
+    if (isFlush() && isStraigt()) {
+      setCompareRanksToAllFiveSortedCards()
+      return true;
     }
     return false
   }
 
   private fun isFlush(): Boolean {
-    if (fiveSortedCards.asSequence().all { it.suit == fiveSortedCards[0].suit }) {
+    return fiveSortedCards.all { it.suit == fiveSortedCards[0].suit }
+  }
+
+  private fun isStraigt(): Boolean {
+    return fiveSortedCards.filterIndexed { index, card ->
+      if (index == 0) {
+        true
+      } else {
+        card.rank.ordinal == fiveSortedCards[index - 1].rank.ordinal + 1
+      }
+    }.size == 5
+  }
+
+  private fun checkForFourOfAKindAndSetCompareRanks(): Boolean {
+    val values = groupedAndSortedCards.values.toList()
+    if (values.size == 2)
+      if (values[0].size == 1 && values[1].size == 4) {
+        setCompareRanks(values[0][0].rank, values[1][0].rank)
+        return true
+      } else if (values[0].size == 4 && values[1].size == 1) {
+        setCompareRanks(values[1][0].rank, values[0][0].rank)
+        return true
+      }
+    return false
+  }
+
+  private fun checkForFullHouseAndSetCompareRanks(): Boolean {
+    val values = groupedAndSortedCards.values.toList()
+    if (values.size == 2) {
+      if (values[0].size == 2 && values[1].size == 3) {
+        setCompareRanks(values[0][0].rank, values[1][0].rank)
+        return true
+      } else if (values[0].size == 3 && values[1].size == 2) {
+        setCompareRanks(values[1][0].rank, values[0][0].rank)
+        return true
+      }
+    }
+    return false
+  }
+
+  private fun checkForFlushAndSetCompareRanks(): Boolean {
+    if (isFlush()) {
+      setCompareRanksToAllFiveSortedCards()
+      return true
+    }
+    return false
+  }
+  
+  private fun checkForStraightAndSetCompareRanks(): Boolean {
+    if (isStraigt()) {
       setCompareRanksToAllFiveSortedCards()
       return true
     }
     return false
   }
 
-  private fun checkForPairAndSetHighCards(): Boolean {
+  private fun checkForThreeOfAKindAndSetCompareRanks(): Boolean {
     val values = groupedAndSortedCards.values.toList()
-    if (values.size == 4) {
-      values.filter { it.size == 1 }.forEach { compareRanks.add(it[0].rank) }
-      compareRanks.add(values.filter { it.size == 2 }[0][0].rank)
+    if (values.any { it.size == 3}) {
+      setCompareRanks(*values.filter { it.size == 1 }.map { it[0].rank }.plus(values.filter { it.size == 3 }[0][0]
+          .rank).toTypedArray())
       return true
     } else {
       return false
     }
+  }
+
+  private fun checkForPairAndSetCompareRanks(): Boolean {
+    val values = groupedAndSortedCards.values.toList()
+    if (values.size == 4) {
+      setCompareRanks(*values.filter { it.size == 1 }.map { it[0].rank }.plus(values.filter { it.size == 2 }[0][0]
+          .rank).toTypedArray())
+      return true
+    } else {
+      return false
+    }
+  }
+
+  private fun setCompareRanksToAllFiveSortedCards() {
+    setCompareRanks(*fiveSortedCards.asSequence().map { it.rank }.toList().toTypedArray())
+  }
+
+  private fun setCompareRanks(vararg ranks: Rank) {
+    compareRanks.clear()
+    ranks.forEach { compareRanks.add(it) }
   }
 }

@@ -3,7 +3,7 @@ package roy.learn.poker.hand
 import org.junit.jupiter.api.Test
 import kotlin.test.assertEquals
 
-class PokerHandAnalyzerTest {
+class  PokerHandAnalyzerTest {
   @Test
   fun type_straightFlush_returnsMatchingType() {
     assertMatchingType(PokerHandType.STRAIGHT_FLUSH, arrayOf("2D", "3D", "4D", "5D", "6D"))
@@ -32,6 +32,21 @@ class PokerHandAnalyzerTest {
   @Test
   fun type_flush_returnsMatchingType() {
     assertMatchingType(PokerHandType.FLUSH, arrayOf("2D", "4D", "5D", "6D", "7D"))
+  }
+
+  @Test
+  fun type_straight_returnsMatchingType() {
+    assertMatchingType(PokerHandType.STRAIGHT, arrayOf("2D", "3C", "4C", "5C", "6C"))
+  }
+
+  @Test
+  fun type_threeOfAKindAtBeginning_returnsMatchingType() {
+    assertMatchingType(PokerHandType.THREE_OF_A_KIND, arrayOf("2D", "2C", "2H", "4D", "5D"))
+  }
+
+  @Test
+  fun type_threeOfAKindAtTheEnd_returnsMatchingType() {
+    assertMatchingType(PokerHandType.THREE_OF_A_KIND, arrayOf("2D", "3D", "5H", "5D", "5C"))
   }
 
   @Test
