@@ -7,7 +7,7 @@ import kotlin.test.assertTrue
 class PokerHandHighCardTest {
   @Test
   fun greaterThan_main1stAtHandEndHigherThanOther_mainGreater() {
-    assertTrue(PokerHand(arrayOf("2D", "4C", "5C", "6C", "9C").toSet()) > 
+    assertTrue(PokerHand(arrayOf("2D", "4C", "5C", "6C", "9C").toSet()) >
         PokerHand(arrayOf("3D", "5C", "6C", "7C", "8C").toSet()))
   }
 
@@ -46,7 +46,7 @@ class PokerHandHighCardTest {
     assertTrue(PokerHand(arrayOf("2C", "4D", "5D", "6D", "7D").toSet()) <
         PokerHand(arrayOf("8C", "TD", "QD", "KD", "AD").toSet()))
   }
-  
+
   @Test
   fun compareTo_mainSameAsOther_returns0() {
     val sameHand = PokerHand(arrayOf("2C", "4D", "5D", "6D", "7D").toSet())

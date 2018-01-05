@@ -17,12 +17,12 @@ class SuitTest {
 
   @Test
   fun invoke_cLowerCase_returnsClubs() {
-    assertEquals( Suit.CLUBS, Suit("c"))
+    assertEquals(Suit.CLUBS, Suit("c"))
   }
 
   @Test
   fun invoke_dUpperCase_returnsDiamonds() {
-    assertEquals( Suit.DIAMONDS, Suit("D"))
+    assertEquals(Suit.DIAMONDS, Suit("D"))
   }
 
   @Test

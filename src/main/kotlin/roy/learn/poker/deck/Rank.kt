@@ -15,7 +15,7 @@ enum class Rank(private val shortName: Char) {
   fun longName(): String {
     return name.toLowerCase()
   }
-  
+
   companion object {
     operator fun invoke(shortName: String): Rank {
       return Rank.values().filter { it.toString() == shortName.toUpperCase() }[0]

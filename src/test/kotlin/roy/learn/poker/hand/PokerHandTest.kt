@@ -40,7 +40,7 @@ class PokerHandTest {
       PokerHand(Collections.emptySet()).toString()
     }
   }
-  
+
   private fun diamondHand(ranks: Array<Rank>): String {
     return PokerHand(ranks.asSequence().map { Card(it, Suit.DIAMONDS) }.toSet()).toString()
   }

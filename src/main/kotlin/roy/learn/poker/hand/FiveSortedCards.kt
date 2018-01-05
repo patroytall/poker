@@ -2,7 +2,7 @@ package roy.learn.poker.hand
 
 import org.roy.learn.poker.Card
 
-class FiveSortedCards(fiveCards: Set<Card>) : ArrayList<Card>(fiveCards.sorted()){
+class FiveSortedCards(fiveCards: Set<Card>) : ArrayList<Card>(fiveCards.sorted()) {
 
   init {
     if (size != 5)

@@ -8,14 +8,12 @@ class PokerHand(private val fiveSortedCards: FiveSortedCards) : Comparable<Poker
   private val analyzer = PokerHandAnalyzer(fiveSortedCards)
 
   val type = analyzer.type
-  
+
   override fun compareTo(other: PokerHand): Int {
-    if (type > other.type) {
-      return 1
-    } else if (type < other.type){
-      return -1      
-    } else {
-      return compareRanks(other)
+    return when {
+      type > other.type -> 1
+      type < other.type -> -1
+      else -> compareRanks(other)
     }
   }
 
@@ -28,7 +26,7 @@ class PokerHand(private val fiveSortedCards: FiveSortedCards) : Comparable<Poker
     }
     return 0
   }
-  
+
   /**
    * @return sorted short text representation of the hand
    */
@@ -40,7 +38,7 @@ class PokerHand(private val fiveSortedCards: FiveSortedCards) : Comparable<Poker
    * @return sorted long text representation of the hand
    */
   fun toLongRepresentation(): String {
-    return fiveSortedCards.toLongRepresentation()
+    return analyzer.type.toString() + ": " + fiveSortedCards.toLongRepresentation()
   }
 
   companion object {

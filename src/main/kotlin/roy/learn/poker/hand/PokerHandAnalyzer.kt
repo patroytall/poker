@@ -1,47 +1,40 @@
 package roy.learn.poker.hand
 
-import org.roy.learn.poker.Card
-import roy.learn.poker.deck.Rank
-import java.util.*
-
 class PokerHandAnalyzer(private val fiveSortedCards: FiveSortedCards) {
 
   val type: PokerHandType
 
-  private val groupedAndSortedCards: SortedMap<Rank, List<Card>> = fiveSortedCards.groupBy({ it.rank }).toSortedMap()
+  private val groupedAndSortedCards = fiveSortedCards.groupBy({ it -> it.rank }).toSortedMap().toList().
+      sortedWith(compareBy({ it.second.size }, { it.first }))
 
-  var compareRanks = ArrayList<Rank>()
-    private set
+  val compareRanks = groupedAndSortedCards.map { it.first }.map { it }
 
   init {
     type = when {
-      checkForStraightFlushAndSetCompareRanks() -> PokerHandType.STRAIGHT_FLUSH
-      checkForFourOfAKindAndSetCompareRanks() -> PokerHandType.FOUR_OF_A_KIND
-      checkForFullHouseAndSetCompareRanks() -> PokerHandType.FULL_HOUSE
-      checkForFlushAndSetCompareRanks() -> PokerHandType.FLUSH
-      checkForStraightAndSetCompareRanks() -> PokerHandType.STRAIGHT
-      checkForThreeOfAKindAndSetCompareRanks() -> PokerHandType.THREE_OF_A_KIND
-      checkForPairAndSetCompareRanks() -> PokerHandType.PAIR
+      isStraightFlush() -> PokerHandType.STRAIGHT_FLUSH
+      isFourOfAKind() -> PokerHandType.FOUR_OF_A_KIND
+      isFullHouse() -> PokerHandType.FULL_HOUSE
+      isFlush() -> PokerHandType.FLUSH
+      isStraight() -> PokerHandType.STRAIGHT
+      isThreeOfAKind() -> PokerHandType.THREE_OF_A_KIND
+      isTwoPairs() -> PokerHandType.TWO_PAIRS
+      hasPair() -> PokerHandType.PAIR
+      isHighCard() -> PokerHandType.HIGH_CARD
       else -> {
-        setCompareRanksToAllFiveSortedCards()
-        PokerHandType.HIGH_CARD
+        throw Exception("implementation error")
       }
     }
   }
 
-  private fun checkForStraightFlushAndSetCompareRanks(): Boolean {
-    if (isFlush() && isStraigt()) {
-      setCompareRanksToAllFiveSortedCards()
-      return true;
-    }
-    return false
+  private fun isStraightFlush(): Boolean {
+    return isFlush() && isStraight()
   }
 
   private fun isFlush(): Boolean {
     return fiveSortedCards.all { it.suit == fiveSortedCards[0].suit }
   }
 
-  private fun isStraigt(): Boolean {
+  private fun isStraight(): Boolean {
     return fiveSortedCards.filterIndexed { index, card ->
       if (index == 0) {
         true
@@ -51,77 +44,27 @@ class PokerHandAnalyzer(private val fiveSortedCards: FiveSortedCards) {
     }.size == 5
   }
 
-  private fun checkForFourOfAKindAndSetCompareRanks(): Boolean {
-    val values = groupedAndSortedCards.values.toList()
-    if (values.size == 2)
-      if (values[0].size == 1 && values[1].size == 4) {
-        setCompareRanks(values[0][0].rank, values[1][0].rank)
-        return true
-      } else if (values[0].size == 4 && values[1].size == 1) {
-        setCompareRanks(values[1][0].rank, values[0][0].rank)
-        return true
-      }
-    return false
+  private fun isFourOfAKind(): Boolean {
+    return groupedAndSortedCards.size == 2 && groupedAndSortedCards[1].second.size == 4
   }
 
-  private fun checkForFullHouseAndSetCompareRanks(): Boolean {
-    val values = groupedAndSortedCards.values.toList()
-    if (values.size == 2) {
-      if (values[0].size == 2 && values[1].size == 3) {
-        setCompareRanks(values[0][0].rank, values[1][0].rank)
-        return true
-      } else if (values[0].size == 3 && values[1].size == 2) {
-        setCompareRanks(values[1][0].rank, values[0][0].rank)
-        return true
-      }
-    }
-    return false
+  private fun isFullHouse(): Boolean {
+    return groupedAndSortedCards.size == 2 && groupedAndSortedCards[1].second.size == 3
   }
 
-  private fun checkForFlushAndSetCompareRanks(): Boolean {
-    if (isFlush()) {
-      setCompareRanksToAllFiveSortedCards()
-      return true
-    }
-    return false
-  }
-  
-  private fun checkForStraightAndSetCompareRanks(): Boolean {
-    if (isStraigt()) {
-      setCompareRanksToAllFiveSortedCards()
-      return true
-    }
-    return false
+  private fun isThreeOfAKind(): Boolean {
+    return groupedAndSortedCards.size == 3 && groupedAndSortedCards[2].second.size == 3
   }
 
-  private fun checkForThreeOfAKindAndSetCompareRanks(): Boolean {
-    val values = groupedAndSortedCards.values.toList()
-    if (values.any { it.size == 3}) {
-      setCompareRanks(*values.filter { it.size == 1 }.map { it[0].rank }.plus(values.filter { it.size == 3 }[0][0]
-          .rank).toTypedArray())
-      return true
-    } else {
-      return false
-    }
+  private fun isTwoPairs(): Boolean {
+    return groupedAndSortedCards.size == 3 && groupedAndSortedCards[2].second.size == 2
   }
 
-  private fun checkForPairAndSetCompareRanks(): Boolean {
-    val values = groupedAndSortedCards.values.toList()
-    if (values.size == 4) {
-      setCompareRanks(*values.filter { it.size == 1 }.map { it[0].rank }.plus(values.filter { it.size == 2 }[0][0]
-          .rank).toTypedArray())
-      return true
-    } else {
-      return false
-    }
+  private fun hasPair(): Boolean {
+    return groupedAndSortedCards.size == 4
   }
 
-  private fun setCompareRanksToAllFiveSortedCards() {
-    setCompareRanks(*fiveSortedCards.asSequence().map { it.rank }.toList().toTypedArray())
-  }
-
-  private fun setCompareRanks(vararg ranks: Rank) {
-    compareRanks.clear()
-    ranks.forEach { compareRanks.add(it) }
+  private fun isHighCard(): Boolean {
+    return groupedAndSortedCards.size == 5
   }
 }

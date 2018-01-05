@@ -7,7 +7,7 @@ class Card(val rank: Rank, val suit: Suit) : Comparable<Card> {
   /**
    * @param shortName rank and suit concatenated, case insensitive, for example: 2D
    */
-  constructor(shortName: String) : this(Rank(shortName.substring(0,1)), Suit(shortName.substring(1)))
+  constructor(shortName: String) : this(Rank(shortName.substring(0, 1)), Suit(shortName.substring(1)))
 
   override fun compareTo(other: Card): Int {
     return rank.compareTo(other.rank)

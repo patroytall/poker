@@ -19,9 +19,9 @@ class CardTest {
 
   @Test
   fun compareTo_whenMainIsSixClubsAndOtherIsSixDiamonds_returns0() {
-    assertEquals(0,Card(Rank.SIX, Suit.CLUBS).compareTo(Card(Rank.SIX, Suit.DIAMONDS)))
+    assertEquals(0, Card(Rank.SIX, Suit.CLUBS).compareTo(Card(Rank.SIX, Suit.DIAMONDS)))
   }
-  
+
   @Test
   fun toString_2CUpperCase_returns2C() {
     assertEquals("2C", Card("2C").toString())

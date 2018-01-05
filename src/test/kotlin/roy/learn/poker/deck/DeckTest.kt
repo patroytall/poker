@@ -14,7 +14,7 @@ class DeckTest {
         return 0
       }
     })
-    val set : Set<Card> = generateSequence { deck.getCard() }.take(52).toSet()
+    val set: Set<Card> = generateSequence { deck.getCard() }.take(52).toSet()
     assertEquals(52, set.size)
   }
 
